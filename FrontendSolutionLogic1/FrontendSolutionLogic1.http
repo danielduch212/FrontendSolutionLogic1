@@ -1,0 +1,6 @@
+@FrontendSolutionLogic1_HostAddress = http://localhost:5196
+
+GET {{FrontendSolutionLogic1_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
