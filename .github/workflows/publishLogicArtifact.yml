@@ -22,6 +22,11 @@ jobs:
       run: dotnet test --no-build --verbosity normal
     - name: Publish
       run: dotnet publish -c Release -o ./publish
+    - name: Upload Artifacts
+      uses: action/upload-artifact@v3
+      with: 
+        name: published-app
+        path: ./publish
 
   deploy:
     needs: build  # Ensures deploy only runs if build is successful
@@ -29,6 +34,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
+    # download artifacts
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with: 
+        name: published-app
+        path: ./publish
 
     # Configure AWS credentials using GitHub Secrets
     - name: Configure AWS credentials
