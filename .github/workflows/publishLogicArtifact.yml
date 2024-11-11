@@ -23,7 +23,7 @@ jobs:
     - name: Publish
       run: dotnet publish -c Release -o ./publish
     - name: Upload Artifacts
-      uses: action/upload-artifact@v3
+      uses: actions/upload-artifact@v3
       with: 
         name: published-app
         path: ./publish
