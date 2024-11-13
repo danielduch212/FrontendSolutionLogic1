@@ -69,4 +69,4 @@ jobs:
       run: ls
     # Upload new artifacts to S3
     - name: Upload to S3
-      run: aws s3 cp ./artifacts s3://frontendsolutionbucket/backend/ --recursive
+      run: aws s3 cp ./artifacts/app-deployment-package.zip s3://frontendsolutionbucket/backend/ 
