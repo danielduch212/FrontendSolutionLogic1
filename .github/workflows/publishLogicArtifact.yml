@@ -61,4 +61,4 @@ jobs:
 
     # Upload new artifacts to S3
     - name: Upload to S3
-      run: aws s3 cp app-deployment-package.zip s3://frontendsolutionbucket/backend/
+      run: aws s3 cp ./app-deployment-package.zip s3://frontendsolutionbucket/backend/
