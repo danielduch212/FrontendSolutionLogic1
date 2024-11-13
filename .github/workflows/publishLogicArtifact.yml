@@ -30,7 +30,12 @@ jobs:
       uses: actions/upload-artifact@v3
       with: 
         name: published-app-zip
-        path: ./publish/app-deployment-package.zip 
+        path: ./publish/
+    - name: list items
+      run: |
+        ls 
+        cd publish
+        ls
 
   deploy:
     needs: build  # Ensures deploy only runs if build is successful
@@ -44,10 +49,11 @@ jobs:
       uses: actions/download-artifact@v3
       with: 
         name: published-app-zip
-        path: ./app-deployment-package.zip
+        path: ./
         
     - name: list items
       run: ls
+        
       
     # Configure AWS credentials using GitHub Secrets
     - name: Configure AWS credentials
@@ -65,4 +71,4 @@ jobs:
       run: ls
     # Upload new artifacts to S3
     - name: Upload to S3
-      run: aws s3 cp ./app-deployment-package.zip s3://frontendsolutionbucket/backend/
+      run: aws s3 cp app-deployment-package.zip s3://frontendsolutionbucket/backend/
