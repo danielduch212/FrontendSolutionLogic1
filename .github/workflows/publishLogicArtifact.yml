@@ -1,0 +1,72 @@
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+    - name: Publish
+      run: dotnet publish -c Release -o ./publish
+    - name: Zip artifacts
+      run: |
+        cd publish
+        zip -r app-deployment-package.zip *
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v3
+      with: 
+        name: published-app-zip
+        path: ./publish/
+
+  deploy:
+    needs: build  # Ensures deploy only runs if build is successful
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    # Download build artifacts
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with: 
+        name: published-app-zip
+        path: ./artifacts/
+        
+    - name: list items
+      run: ls
+    - name: list inner items artifacts
+      run: |
+        cd artifacts
+        ls
+      
+    # Configure AWS credentials using GitHub Secrets
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    # Cleanup old artifacts in S3
+    - name: Cleanup S3
+      run: aws s3 rm s3://frontendsolutionbucket/backend/ --recursive
+
+    - name: list item2
+      run: ls
+    # Upload new artifacts to S3
+    - name: Upload to S3
+      run: aws s3 cp ./artifacts/app-deployment-package.zip s3://frontendsolutionbucket/backend/ 
