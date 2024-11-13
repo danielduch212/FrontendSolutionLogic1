@@ -45,8 +45,10 @@ jobs:
       with: 
         name: published-app-zip
         path: ./app-deployment-package.zip
+        
     - name: list items
-      run: ls 
+      run: ls
+      
     # Configure AWS credentials using GitHub Secrets
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v2
@@ -59,6 +61,8 @@ jobs:
     - name: Cleanup S3
       run: aws s3 rm s3://frontendsolutionbucket/backend/ --recursive
 
+    - name: list item2
+      run: ls
     # Upload new artifacts to S3
     - name: Upload to S3
       run: aws s3 cp ./app-deployment-package.zip s3://frontendsolutionbucket/backend/
