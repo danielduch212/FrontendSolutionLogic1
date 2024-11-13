@@ -44,7 +44,7 @@ jobs:
       uses: actions/download-artifact@v3
       with: 
         name: published-app-zip
-        path: app-deployment-package.zip
+        path: ./publish/app-deployment-package.zip
 
     # Configure AWS credentials using GitHub Secrets
     - name: Configure AWS credentials
