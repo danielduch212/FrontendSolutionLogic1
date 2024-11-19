@@ -6,6 +6,10 @@ namespace FrontendSolutionLogic1
     {
         protected override void Init(IHostBuilder builder)
         {
+            builder.ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseSetting(WebHostDefaults.ApplicationKey, typeof(Program).Assembly.FullName);
+            });
             base.Init(builder);
         }
     }
