@@ -1,0 +1,15 @@
+{
+  "profile": "default",
+  "region": "eu-north-1",
+  "function-name": "MyLambdaFunction",
+  "function-handler": "FrontendSolutionLogic1::FrontendSolutionLogic1.LambdaEntryPoint::FunctionHandlerAsync",
+  "memory-size": 256,
+  "timeout": 30,
+  "environment-variables": "",
+  "msbuild-parameters": "/p:Configuration=Release",
+  "package-type": "Zip",
+  "s3-bucket": "",
+  "framework": "net8.0",
+  "configuration": "Release",
+  "publish-dir": "bin/Release/net8.0/publish"
+}
